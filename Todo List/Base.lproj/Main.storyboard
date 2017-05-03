@@ -700,7 +700,7 @@
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn width="40" minWidth="40" maxWidth="1000" id="Uxq-EW-3Db">
+                                                <tableColumn identifier="importantCell" width="40" minWidth="40" maxWidth="1000" id="Uxq-EW-3Db">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -767,6 +767,10 @@
                                                     </prototypeCellViews>
                                                 </tableColumn>
                                             </tableColumns>
+                                            <connections>
+                                                <outlet property="dataSource" destination="XfG-lQ-9wD" id="td0-A3-QFi"/>
+                                                <outlet property="delegate" destination="XfG-lQ-9wD" id="aoq-US-XO9"/>
+                                            </connections>
                                         </tableView>
                                     </subviews>
                                 </clipView>
@@ -824,6 +828,7 @@
                     </view>
                     <connections>
                         <outlet property="importantCheckbox" destination="jo1-ww-9qf" id="ULl-oL-oaz"/>
+                        <outlet property="tableView" destination="fWw-72-F6W" id="EC2-Mo-XeR"/>
                         <outlet property="textField" destination="Ph9-uq-dOk" id="rkd-qh-k9w"/>
                     </connections>
                 </viewController>

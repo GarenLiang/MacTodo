@@ -8,10 +8,12 @@
 
 import Cocoa
 
-class ViewController: NSViewController {
+class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
 
     @IBOutlet weak var importantCheckbox: NSButton!
     @IBOutlet weak var textField: NSTextField!
+    
+    @IBOutlet weak var tableView: NSTableView!
     var toDoItems : [ToDoItem] = []
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +34,7 @@ class ViewController: NSViewController {
             }
         }
         //update table
+        tableView.reloadData()
     }
     @IBAction func addClicked(_ sender: AnyObject) {
         if textField.stringValue != "" {
@@ -55,6 +58,17 @@ class ViewController: NSViewController {
                 getToDoItems()
             }
         }
+    }
+    // tableview stuff
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return toDoItems.count
+    }
+    func tableView(_ tableView: NSTableView, viewFor tableColum: NSTableColumn?, row: Int) -> NSView? {
+        if let cell = tableView.make(withIdentifier: "importantCell", owner: self) as? NSTableCellView {
+            cell.textField?.stringValue = "HELLO"
+            return cell
+        }
+        return nil
     }
 
     override var representedObject: Any? {
