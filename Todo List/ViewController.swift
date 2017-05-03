@@ -9,11 +9,14 @@
 import Cocoa
 
 class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
+    @IBOutlet weak var deleteButton: NSButton!
 
     @IBOutlet weak var importantCheckbox: NSButton!
     @IBOutlet weak var textField: NSTextField!
     
     @IBOutlet weak var tableView: NSTableView!
+    
+    
     var toDoItems : [ToDoItem] = []
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +31,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             do {
                 //set them to class property
                 toDoItems = try context.fetch(ToDoItem.fetchRequest())
-                print(toDoItems.count)
+                
             } catch {
             
             }
@@ -59,6 +62,18 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             }
         }
     }
+    
+    @IBAction func deleteClicked(_ sender: Any) {
+        let toDoItem = toDoItems[tableView.selectedRow]
+        if let context = (NSApplication.shared().delegate as?
+            AppDelegate)?.persistentContainer.viewContext {
+            context.delete(toDoItem)
+            (NSApplication.shared().delegate as? AppDelegate)?.saveAction(nil)
+            getToDoItems()
+            deleteButton.isHidden = true
+        }
+    }
+    
     // tableview stuff
     func numberOfRows(in tableView: NSTableView) -> Int {
         return toDoItems.count
@@ -85,9 +100,10 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         
     }
 
-    return nil
-
-
-}
+      return nil
+    }
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        deleteButton.isHidden = false
+    }
 
 }

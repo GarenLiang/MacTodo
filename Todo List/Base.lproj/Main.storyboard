@@ -824,9 +824,21 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dTO-e2-VOC">
+                                <rect key="frame" x="291" y="51" width="175" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Delete" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="kff-Ev-uUS">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="deleteClicked:" target="XfG-lQ-9wD" id="x6t-mj-twn"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="deleteButton" destination="dTO-e2-VOC" id="Dd0-R8-I4h"/>
                         <outlet property="importantCheckbox" destination="jo1-ww-9qf" id="ULl-oL-oaz"/>
                         <outlet property="tableView" destination="fWw-72-F6W" id="EC2-Mo-XeR"/>
                         <outlet property="textField" destination="Ph9-uq-dOk" id="rkd-qh-k9w"/>
