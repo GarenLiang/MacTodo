@@ -9,11 +9,14 @@
 import Cocoa
 
 class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
+    @IBOutlet weak var deleteButton: NSButton!
 
     @IBOutlet weak var importantCheckbox: NSButton!
     @IBOutlet weak var textField: NSTextField!
     
     @IBOutlet weak var tableView: NSTableView!
+    
+    
     var toDoItems : [ToDoItem] = []
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +31,7 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             do {
                 //set them to class property
                 toDoItems = try context.fetch(ToDoItem.fetchRequest())
-                print(toDoItems.count)
+                
             } catch {
             
             }
@@ -59,24 +62,48 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
             }
         }
     }
+    
+    @IBAction func deleteClicked(_ sender: Any) {
+        let toDoItem = toDoItems[tableView.selectedRow]
+        if let context = (NSApplication.shared().delegate as?
+            AppDelegate)?.persistentContainer.viewContext {
+            context.delete(toDoItem)
+            (NSApplication.shared().delegate as? AppDelegate)?.saveAction(nil)
+            getToDoItems()
+            deleteButton.isHidden = true
+        }
+    }
+    
     // tableview stuff
     func numberOfRows(in tableView: NSTableView) -> Int {
         return toDoItems.count
     }
     func tableView(_ tableView: NSTableView, viewFor tableColum: NSTableColumn?, row: Int) -> NSView? {
-        if let cell = tableView.make(withIdentifier: "importantCell", owner: self) as? NSTableCellView {
-            cell.textField?.stringValue = "HELLO"
-            return cell
+        let toDoItem = toDoItems[row]
+        if tableColum?.identifier == "importantColumn" {
+            //important
+            if let cell = tableView.make(withIdentifier: "importantCell", owner: self) as? NSTableCellView {
+                if toDoItem.important {
+                    cell.textField?.stringValue = "🤡"
+
+                } else {
+                    cell.textField?.stringValue = ""
+                }
+                
+                return cell
+            }
+        } else {
+            if let cell = tableView.make(withIdentifier: "todoitems", owner: self) as? NSTableCellView {
+                cell.textField?.stringValue = toDoItem.name!
+                return cell
         }
-        return nil
+        
     }
 
-    override var representedObject: Any? {
-        didSet {
-        // Update the view, if already loaded.
-        }
+      return nil
     }
-
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        deleteButton.isHidden = false
+    }
 
 }
-
