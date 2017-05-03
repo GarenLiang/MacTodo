@@ -64,19 +64,30 @@ class ViewController: NSViewController, NSTableViewDataSource, NSTableViewDelega
         return toDoItems.count
     }
     func tableView(_ tableView: NSTableView, viewFor tableColum: NSTableColumn?, row: Int) -> NSView? {
-        if let cell = tableView.make(withIdentifier: "importantCell", owner: self) as? NSTableCellView {
-            cell.textField?.stringValue = "HELLO"
-            return cell
+        let toDoItem = toDoItems[row]
+        if tableColum?.identifier == "importantColumn" {
+            //important
+            if let cell = tableView.make(withIdentifier: "importantCell", owner: self) as? NSTableCellView {
+                if toDoItem.important {
+                    cell.textField?.stringValue = "🤡"
+
+                } else {
+                    cell.textField?.stringValue = ""
+                }
+                
+                return cell
+            }
+        } else {
+            if let cell = tableView.make(withIdentifier: "todoitems", owner: self) as? NSTableCellView {
+                cell.textField?.stringValue = toDoItem.name!
+                return cell
         }
-        return nil
+        
     }
 
-    override var representedObject: Any? {
-        didSet {
-        // Update the view, if already loaded.
-        }
-    }
+    return nil
 
 
 }
 
+}
